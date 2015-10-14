@@ -24,10 +24,12 @@
 		
 		//otsin
 		$keyword = $_GET["keyword"];
+		$array_of_cars = getCarData($keyword);
 		
 	}else{
 		
-		// küsin kõik andmed
+		//küsin kõik andmed
+		
 		//käivitan funktsiooni
 		$array_of_cars = getCarData();
 	}

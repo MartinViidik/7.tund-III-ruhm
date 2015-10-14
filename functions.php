@@ -3,11 +3,28 @@
 	require_once("../config_global.php");
 	$database = "if15_martin";
 	
-	function getCarData(){
+	// annan vaikeväärtuse
+	function getCarData($keyword=""){
+		
+			$search = "%%";
+			
+			//kas otsisõna on tühi
+			if($keyword == ""){
+				// ei otsi midagi
+				echo "Not looking";
+				
+			}else{
+				// otsin
+				echo "Finding ".$keyword;
+				$search = "%".$keyword."%";
+			}
+			
+			//echo "Finding ".$keyword;
 		
 			$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 			
-			$stmt = $mysqli->prepare("SELECT id, user_id, number_plate, color from car_plates");
+			$stmt = $mysqli->prepare("SELECT id, user_id, number_plate, color from car_plates WHERE deleted IS NULL AND (number_plate LIKE ? OR color LIKE ?)");
+			$stmt->bind_param("ss", $search, $search);
 			$stmt->bind_result($id, $user_id_from_database, $number_plate, $color);
 			$stmt->execute();
 			
